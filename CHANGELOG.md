@@ -12,6 +12,10 @@ rule this package observes, because it computes statutory figures:
 
 ## [Unreleased]
 
+### Changed
+
+- The PDF is a wage slip rather than a dump of every `toArray()` key: earnings and deductions print as two columns, net pay is written in words, and the employer's contributions sit in an annexure that is not deducted from the net.
+
 ## [1.0.0] - 2026-08-12
 
 ### Added

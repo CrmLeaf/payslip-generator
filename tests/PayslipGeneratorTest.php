@@ -16,7 +16,8 @@ use Orchestra\Testbench\TestCase;
  * crmleaf/payroll-core. What has to be proven here is narrower and easy to
  * break: that the calculator this package wraps exists and takes the arguments
  * the generated controller passes it, that the provider boots on its own, that
- * the route stays off until it is asked for, and that the component renders.
+ * the route stays off until it is asked for, that the component renders, and
+ * that the PDF document is a two-column wage slip rather than a key dump.
  */
 final class PayslipGeneratorTest extends TestCase
 {
@@ -227,5 +228,101 @@ final class PayslipGeneratorTest extends TestCase
         $this->postJson('/tools/payslip-generator', [])
             ->assertStatus(422)
             ->assertJsonValidationErrors(['employee_name']);
+    }
+
+    /**
+     * The document is what a caller files or hands to an employee. Dumping every
+     * toArray() key made a data sheet, not a wage slip - the print order lives
+     * on earningLines() / deductionLines() / employerContributionLines(), which
+     * toArray() already exposes as earnings, deductions and employer_contributions.
+     */
+    public function test_the_document_prints_a_two_column_payslip(): void
+    {
+        $html = view('payslip-generator::document', [
+            'result' => new class {
+                /** @return array<int, object> */
+                public function steps(): array
+                {
+                    return [];
+                }
+
+                /** @return array<int, string> */
+                public function citations(): array
+                {
+                    return ['Payment of Wages Act 1936, section 13A'];
+                }
+            },
+            'title' => 'Payslip Generator',
+            'company' => [
+                'name' => 'Your Company Private Limited',
+                'address' => 'Bengaluru',
+                'gstin' => '29AAAAA0000A1Z5',
+                'pan' => 'AAAAA0000A',
+            ],
+            'data' => [
+                'employee_name' => 'Asha Menon',
+                'employee_code' => 'EMP-0001',
+                'designation' => 'Senior Engineer',
+                'pay_month' => '2025-08',
+                'pay_month_label' => 'August 2025',
+                'state' => 'Karnataka',
+                'days_in_month' => 31,
+                'days_payable' => 31,
+                'lop_days' => 0,
+                'paid_days' => 31,
+                'earnings' => [
+                    ['label' => 'Basic', 'amount' => 30000.0, 'amount_formatted' => '₹30,000.00'],
+                    ['label' => 'House rent allowance', 'amount' => 15000.0, 'amount_formatted' => '₹15,000.00'],
+                    ['label' => 'Special allowance', 'amount' => 30000.0, 'amount_formatted' => '₹30,000.00'],
+                ],
+                'deductions' => [
+                    ['label' => 'Provident fund (employee share)', 'amount' => 1800.0, 'amount_formatted' => '₹1,800.00'],
+                    ['label' => 'Professional tax (Karnataka)', 'amount' => 200.0, 'amount_formatted' => '₹200.00'],
+                ],
+                'employer_contributions' => [
+                    ['label' => 'Provident fund - EPF (A/c 1)', 'amount' => 550.0, 'amount_formatted' => '₹550.00'],
+                    ['label' => 'Provident fund - EPS (A/c 10)', 'amount' => 1250.0, 'amount_formatted' => '₹1,250.00'],
+                    ['label' => 'EDLI (A/c 21)', 'amount' => 75.0, 'amount_formatted' => '₹75.00'],
+                ],
+                'gross_earnings_formatted' => '₹75,000.00',
+                'total_deductions_formatted' => '₹2,000.00',
+                'net_pay' => 73000.0,
+                'net_pay_formatted' => '₹73,000.00',
+                'net_pay_in_words' => 'Rupees Seventy Three Thousand Only',
+                'total_employer_contributions_formatted' => '₹1,875.00',
+                'notes' => [],
+                // Present in toArray() and previously dumped as labelled rows.
+                'state_insurance_applicable' => false,
+                'monthly_gross' => 75000.0,
+                'monthly_gross_formatted' => '₹75,000.00',
+                'tds_detail' => ['annual_tax' => 0],
+            ],
+        ])->render();
+
+        self::assertStringContainsString('Payslip for August 2025', $html);
+        self::assertStringContainsString('Asha Menon', $html);
+        self::assertStringContainsString('Senior Engineer', $html);
+        self::assertStringContainsString('31 of 31', $html);
+        self::assertStringContainsString('Your Company Private Limited', $html);
+
+        self::assertStringContainsString('>Earnings</th>', $html);
+        self::assertStringContainsString('>Deductions</th>', $html);
+        self::assertStringContainsString('Basic', $html);
+        self::assertStringContainsString('House rent allowance', $html);
+        self::assertStringContainsString('Special allowance', $html);
+        self::assertStringContainsString('Provident fund (employee share)', $html);
+        self::assertStringContainsString('Professional tax (Karnataka)', $html);
+        self::assertStringContainsString('Gross earnings', $html);
+        self::assertStringContainsString('Total deductions', $html);
+
+        self::assertStringContainsString('Net pay', $html);
+        self::assertStringContainsString('Rupees Seventy Three Thousand Only', $html);
+
+        self::assertStringContainsString('Employer contributions', $html);
+        self::assertStringContainsString('Provident fund - EPF (A/c 1)', $html);
+        self::assertStringContainsString('These amounts are not deducted from the employee.', $html);
+
+        self::assertStringNotContainsString('State insurance applicable', $html);
+        self::assertStringNotContainsString('Tds detail', $html);
     }
 }
