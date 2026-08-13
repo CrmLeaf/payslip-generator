@@ -8,3 +8,20 @@
 src/Calculators/PayslipGenerator.php
 src/Results/PayslipResult.php
 tests/Calculators/PayslipGeneratorTest.php
+
+# The rest of this list is what happens once a package is published and
+# people work on it directly. crmleaf/payslip-generator is the public source
+# of truth, so a change merged there has to survive `make tools` here.
+#
+# The document view stopped being generic the moment it printed a payslip:
+# it reads earnings, deductions, employer_contributions and net_pay, which
+# only PayslipResult has. The shared stub cannot grow those without the
+# other fourteen tools inheriting a wage slip they have no data for.
+#
+# The test file and the changelog follow the view. One asserts what the view
+# renders; the other records the change for people installing the package,
+# which a template cannot write.
+
+resources/views/document.blade.php
+tests/PayslipGeneratorTest.php
+CHANGELOG.md

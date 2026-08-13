@@ -1,10 +1,14 @@
 <!--
-    This repository is published from crmleaf/payroll-tools by git subtree split,
-    and its history is rewritten on every push. A pull request opened here cannot
-    be merged - the next split erases it.
+    Thanks for this. Two things worth knowing before you fill it in:
 
-    Open it at https://github.com/crmleaf/payroll-tools/pulls instead, against
-    tools/payslip-generator/. The checklist below is the one used there.
+    Statutory rates and the shared arithmetic are not in this package - they are
+    in crmleaf/payroll-core. A wrong figure or a changed rate is almost always a
+    change there.
+
+    A change to scaffolding shared with the fourteen sibling tools is carried
+    back into their template by a maintainer, and a change to a published figure
+    is mirrored into a TypeScript port that has to agree to the paisa. You do not
+    need to do either; it is why those pull requests take longer to land.
 -->
 
 ## What this changes

@@ -6,20 +6,25 @@ case.
 
 By participating you agree to abide by the [Code of Conduct](CODE_OF_CONDUCT.md).
 
-## Pull requests go to the monorepo
+## Where to open things
 
-This repository is published automatically from
-[crmleaf/payroll-tools](https://github.com/crmleaf/payroll-tools) by
-`git subtree split`, and **its history is rewritten on every push to `main`**. A
-commit made here is erased by the next split, so there is nothing this repository
-can merge.
+**Here.** Issues and pull requests both belong on this repository. `main` is
+protected, so a change lands through a pull request and a review like anywhere
+else.
 
-Open pull requests at
-[crmleaf/payroll-tools](https://github.com/crmleaf/payroll-tools/pulls), where
-this package lives under `tools/payslip-generator/` alongside one test suite and one set
-of statutory rate tables.
+Two things are worth knowing before you spend time on one.
 
-Issues **are** read here, because this is where Packagist and npm send people.
+The statutory arithmetic is not in this package. It lives in
+[crmleaf/payroll-core](https://github.com/crmleaf/payroll-core), along with the
+dated rate tables every tool shares, so a wrong figure or a changed rate is
+almost always a change there rather than here. What lives here is this tool's own
+calculator, its routes, its views and its browser asset.
+
+This package is also generated from a template alongside fourteen sibling tools,
+and there is a TypeScript port that has to produce the same figures to the paisa.
+A maintainer merging your change carries it back into that template and runs the
+parity check. That is our job, not yours, but it is why a change to shared
+scaffolding takes longer to merge than the diff suggests.
 They get triaged and moved.
 
 ## Reproducing locally

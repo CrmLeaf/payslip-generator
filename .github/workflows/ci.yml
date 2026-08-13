@@ -1,11 +1,8 @@
 name: CI
 
-# The mirror's own CI. It proves crmleaf/payslip-generator installs and passes on its
-# own, with nothing from the monorepo present - which is the whole promise of a
-# tool you can require by itself.
-#
-# Development happens in crmleaf/payroll-tools. Pull requests opened here cannot
-# be merged, because the branch is rewritten by `git subtree split` on every push.
+# This package's own CI. It proves that crmleaf/payslip-generator
+# installs and passes on its own, with nothing else from the suite present,
+# which is the whole promise of a tool you can require by itself.
 
 on:
   push:

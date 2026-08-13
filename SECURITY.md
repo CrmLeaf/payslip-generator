@@ -4,12 +4,9 @@
 
 **Please do not open a public issue.**
 
-Use the [Report a vulnerability][advisories] button on the monorepo's Security
+Use the [Report a vulnerability][advisories] button on this repository's Security
 tab, which opens a private thread, or email <security@crmleaf.app> with
 "SECURITY" in the subject.
-
-Reports go to [crmleaf/payroll-tools][advisories] rather than here, because that
-is where the fix is made and where private advisory reporting is enabled.
 
 Include the version affected, the impact, and steps to reproduce.
 
@@ -36,5 +33,5 @@ Out of scope: the hosted tools at <https://www.indpayroll.com/free-tools>, and
 third-party dependencies - report those upstream, and tell us so we can pin or
 patch.
 
-[advisories]: https://github.com/crmleaf/payroll-tools/security/advisories/new
+[advisories]: https://github.com/crmleaf/payslip-generator/security/advisories/new
 [calc]: https://github.com/crmleaf/payslip-generator/issues/new?template=calculation-error.yml
