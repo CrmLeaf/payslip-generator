@@ -12,9 +12,20 @@ rule this package observes, because it computes statutory figures:
 
 ## [Unreleased]
 
+## [1.1.0] - 2026-08-13
+
 ### Changed
 
 - The PDF is a wage slip rather than a dump of every `toArray()` key: earnings and deductions print as two columns, net pay is written in words, and the employer's contributions sit in an annexure that is not deducted from the net.
+
+### Added
+
+- The generator is covered when called with no date at all. Every other test pins a date, so the path a first-time caller takes was never exercised, and this package reads four rate tables - if any of them stops covering today, that path throws while the suite stays green.
+
+### Fixed
+
+- Documentation described this repository as a read-only mirror into which pull requests could not be merged, and routed security reports to a repository nobody outside the organisation could reach. Issues, pull requests and advisories all belong here.
+- The readme told people to run `composer require crmleaf/payslip-generator`, which cannot work until the package is on Packagist. It now carries a route that works today.
 
 ## [1.0.0] - 2026-08-12
 
