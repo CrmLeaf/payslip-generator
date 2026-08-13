@@ -1,0 +1,10 @@
+# Files in this package that are written by hand, not generated.
+#
+# bin/generate-tools.php in the monorepo rewrites everything else from a
+# template on every run. The paths below are the calculator, its result and
+# its tests, which are the reason this package exists, so the generator
+# leaves them alone.
+
+src/Calculators/PayslipGenerator.php
+src/Results/PayslipResult.php
+tests/Calculators/PayslipGeneratorTest.php

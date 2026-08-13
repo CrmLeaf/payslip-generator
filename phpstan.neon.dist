@@ -1,0 +1,22 @@
+parameters:
+    level: 8
+    paths:
+        - src
+    treatPhpDocTypesAsCertain: false
+    ignoreErrors:
+        # dompdf is a suggested dependency, not a required one: the document
+        # renders as HTML without it and only needs it for PDF output. So its
+        # classes are legitimately absent, and pdfAvailable() is the runtime
+        # guard. Scoped to the one file so it cannot mask anything else.
+        -
+            identifier: class.notFound
+            path: src/Documents/PayslipGeneratorDocument.php
+
+# `paths` already limits what is analysed, so vendor needs no exclusion - and it
+# must not be excluded, because PHPStan scans it to discover the symbols this
+# package depends on. Excluding it under analyseAndScan turns every dependency
+# into an unknown class.
+#
+# Tests are outside `paths`, matching the monorepo. At level 8 a test suite
+# reports mostly framework nullables and redundant guards, none of which is a
+# defect; PHPUnit exercises the tests, this analyses the code that ships.
