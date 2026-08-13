@@ -1,0 +1,41 @@
+{
+  "name": "@crmleaf/payslip-generator",
+  "version": "1.0.0",
+  "description": "Compliance-ready payslip PDFs with your company branding.",
+  "keywords": ["payslip", "pdf", "payroll", "india", "laravel", "salary-slip"],
+  "license": "MIT",
+  "homepage": "https://www.indpayroll.com/free-tools/payslip-generator",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/crmleaf/payroll-tools.git",
+    "directory": "tools/payslip-generator"
+  },
+  "bugs": {
+    "url": "https://github.com/crmleaf/payroll-tools/issues"
+  },
+  "type": "module",
+  "main": "./js/index.js",
+  "types": "./js/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./js/index.d.ts",
+      "default": "./js/index.js"
+    }
+  },
+  "sideEffects": false,
+  "files": [
+    "js",
+    "resources/assets",
+    "README.md",
+    "LICENSE"
+  ],
+  "dependencies": {
+    "@crmleaf/payroll-js": "^1.0.0"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
