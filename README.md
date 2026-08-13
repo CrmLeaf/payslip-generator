@@ -78,6 +78,20 @@ into whatever your site serves as static assets.
 > only option that needs no third-party request, so plenty of projects will want
 > to stay on it.
 
+### See it working first
+
+`demo/index.html` in this repository is a working copy of Payslip Generator in one file:
+the form, the calculation and the working, with no build step and no server. Drop
+`payroll.min.js` beside it and open it from disk.
+
+```bash
+cp /path/to/payroll-js/dist/payroll.min.js demo/
+open demo/index.html
+```
+
+Nothing on that page reaches the network, which is the point: it is a calculator
+people paste salary figures into.
+
 ## Use it
 
 **Plain PHP**, no framework and no container:

@@ -4,6 +4,7 @@
 # the Composer and npm archives a consumer actually downloads.
 /.github            export-ignore
 /tests              export-ignore
+/demo               export-ignore
 .gitattributes      export-ignore
 .gitignore          export-ignore
 phpunit.xml.dist    export-ignore
