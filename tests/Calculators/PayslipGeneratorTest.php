@@ -14,10 +14,10 @@ use PHPUnit\Framework\TestCase;
 final class PayslipGeneratorTest extends TestCase
 {
     /**
-     * Pinned to FY 2025-26. The income tax table's newest version expires on
-     * 31 March 2026 and the professional tax table's oldest begins on 1 April
-     * 2025, so this is the only window in which every table this generator
-     * touches has a version in force.
+     * Pinned to FY 2025-26 so the expected figures below stay fixed as rate
+     * tables gain later versions. It is not the only date that works: the
+     * generator called with no date at all is covered separately, in
+     * test_works_without_an_explicit_date.
      */
     private const AS_OF = '2025-08-01';
 
@@ -577,6 +577,29 @@ final class PayslipGeneratorTest extends TestCase
             'more loss of pay than days payable' => [$base(['daysPayable' => 10, 'lopDays' => 11])],
             'an unparsable wage month' => [$base(['payMonth' => 'the middle of last year'])],
         ];
+    }
+
+    /**
+     * Every other test here pins a date, which keeps the figures stable but
+     * never exercises the path a first-time caller takes. This generator reads
+     * four rate tables; if any of them stops covering today, that path throws
+     * while the rest of the suite stays green.
+     *
+     * The assertion is deliberately weak - the figures depend on whichever
+     * versions are in force, and pinning them here would defeat the purpose.
+     * What is being tested is that the call returns at all.
+     */
+    public function test_works_without_an_explicit_date(): void
+    {
+        $result = $this->generator->calculate(
+            employeeName: 'Asha Menon',
+            monthlyGross: Money::fromRupees(75_000),
+            monthlyBasic: Money::fromRupees(30_000),
+            payMonth: date('Y-m-01'),
+        );
+
+        self::assertTrue($result->netPay->isPositive());
+        self::assertNotSame('', $result->explain());
     }
 
     private function payslip(
