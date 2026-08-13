@@ -239,7 +239,7 @@ final class PayslipGeneratorTest extends TestCase
     public function test_the_document_prints_a_two_column_payslip(): void
     {
         $html = view('payslip-generator::document', [
-            'result' => new class {
+            'result' => new class () {
                 /** @return array<int, object> */
                 public function steps(): array
                 {
