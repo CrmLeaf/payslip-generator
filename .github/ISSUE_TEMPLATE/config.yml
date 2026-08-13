@@ -1,14 +1,11 @@
 blank_issues_enabled: false
 contact_links:
   - name: Security vulnerability
-    url: https://github.com/crmleaf/payroll-tools/security/advisories/new
+    url: https://github.com/crmleaf/payslip-generator/security/advisories/new
     about: Report privately. Please do not open a public issue.
   - name: Wrong rate, slab or due date
-    url: https://github.com/crmleaf/payroll-tools/issues/new/choose
-    about: Rates live in dated tables shared by every tool, so they are changed in the monorepo.
-  - name: Question about usage
-    url: https://github.com/crmleaf/payroll-tools/discussions
-    about: Ask how something works before filing a bug.
-  - name: Pull request
-    url: https://github.com/crmleaf/payroll-tools/pulls
-    about: This repository is rewritten on every split, so changes are made in the monorepo.
+    url: https://github.com/crmleaf/payroll-core/issues/new/choose
+    about: Rates are dated tables shared by every tool, so they are changed in payroll-core.
+  - name: The other CRMLeaf payroll tools
+    url: https://github.com/crmleaf
+    about: Payslips, invoices, gratuity and the rest each have their own repository.

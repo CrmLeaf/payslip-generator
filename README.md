@@ -4,16 +4,17 @@ Compliance-ready payslip PDFs with your company branding.
 
 Builds a payslip for one employee for one wage month: earnings from the salary structure, statutory deductions computed by the core engine, and a net pay figure with the working attached to every line.
 
-Part of the [CRMLeaf payroll tools](https://github.com/crmleaf/payroll-tools)
-suite. The arithmetic lives in `crmleaf/payroll-core`; this package is the thin
-skin that makes it installable, mountable and embeddable on its own.
+One of the [CRMLeaf payroll tools](https://github.com/crmleaf). The arithmetic
+and the dated statutory rate tables live in
+[`crmleaf/payroll-core`](https://github.com/crmleaf/payroll-core); this package is
+the thin skin that makes one calculator installable, mountable and embeddable on
+its own.
 
 > [!NOTE]
-> This repository is a **read-only mirror**, published by `git subtree split` from
-> [crmleaf/payroll-tools](https://github.com/crmleaf/payroll-tools). Pull requests
-> belong there, where this package is developed against one test suite and one set
-> of statutory rate tables. Issues are read here too, since this is where
-> Packagist and npm send people.
+> A wrong figure or an out-of-date rate is almost always a
+> [`payroll-core`](https://github.com/crmleaf/payroll-core/issues) matter, since
+> that is where the tables live. Anything about this tool's routes, views or
+> browser asset belongs here.
 
 ## Install
 
@@ -24,12 +25,33 @@ setup:
 composer require crmleaf/payslip-generator
 ```
 
+> [!NOTE]
+> Not on Packagist yet. Until it is, point Composer at the two repositories in
+> **your own project's** `composer.json` and the same `require` works, because
+> Composer reads the tags:
+>
+> ```json
+> "repositories": [
+>     { "type": "vcs", "url": "https://github.com/crmleaf/payslip-generator.git" },
+>     { "type": "vcs", "url": "https://github.com/crmleaf/payroll-core.git" }
+> ]
+> ```
+>
+> Both entries are needed, and they have to be in the root project: Composer
+> ignores a `repositories` block inside an installed dependency, so listing only
+> this package will not resolve `crmleaf/payroll-core`.
+
 **npm** - the same calculation, re-exported from `@crmleaf/payroll-js` so you can
 install this one tool and nothing else:
 
 ```bash
 npm install @crmleaf/payslip-generator
 ```
+
+> [!NOTE]
+> Not on npm yet either. The script-tag route below needs no registry and works
+> today. Installing this package straight from git will not resolve
+> `@crmleaf/payroll-js`, for the same reason as above.
 
 **A plain script tag** - no build step, no bundler, no server. Build the browser
 bundle once and serve the file yourself:

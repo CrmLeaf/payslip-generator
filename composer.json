@@ -13,8 +13,8 @@
         }
     ],
     "support": {
-        "issues": "https://github.com/crmleaf/payroll-tools/issues",
-        "source": "https://github.com/crmleaf/payroll-tools/tree/main/tools/payslip-generator"
+        "issues": "https://github.com/crmleaf/payslip-generator/issues",
+        "source": "https://github.com/crmleaf/payslip-generator"
     },
     "require": {
         "php": "^8.2",
