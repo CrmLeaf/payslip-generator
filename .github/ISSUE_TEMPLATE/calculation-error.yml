@@ -1,0 +1,75 @@
+name: Incorrect calculation
+description: Payslip Generator returns a figure you believe is statutorily wrong.
+title: "[calc] "
+labels: ["bug", "calculation"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        A wrong statutory figure is the most important kind of bug this package
+        can have, so thank you for reporting it.
+
+        The single most useful thing you can give us is **the rule that says we
+        are wrong**. Inputs plus expected output plus a citation becomes a test
+        case, and a test case becomes a fix.
+
+        This tool implements:
+
+        > Payment of Wages Act 1936, section 13A and the Code on Wages 2019 - the particulars a wage slip must carry - with EPF, ESI and professional tax deducted per their own enactments.
+
+  - type: input
+    id: version
+    attributes:
+      label: Package version
+      placeholder: "crmleaf/payslip-generator 1.0.0"
+    validations:
+      required: true
+
+  - type: input
+    id: financial-year
+    attributes:
+      label: Financial year the figure applies to
+      placeholder: "2025-26"
+    validations:
+      required: true
+
+  - type: textarea
+    id: inputs
+    attributes:
+      label: Inputs
+      description: Every value you passed. Code is ideal.
+      render: php
+      placeholder: |
+        (new PayslipGenerator())->calculate(
+        employeeName: 'Asha Menon',
+        monthlyGross: Money::fromRupees(75_000),
+        monthlyBasic: Money::fromRupees(30_000),
+        payMonth: new \DateTimeImmutable('2025-08-01'),
+        );
+    validations:
+      required: true
+
+  - type: input
+    id: actual
+    attributes:
+      label: Figure you got
+    validations:
+      required: true
+
+  - type: input
+    id: expected
+    attributes:
+      label: Figure you expected
+    validations:
+      required: true
+
+  - type: textarea
+    id: citation
+    attributes:
+      label: Statutory basis for the expected figure
+      description: >
+        The section, notification, circular or gazette entry. A link is perfect.
+        If you are working from an accountant's advice or a filing that was
+        accepted, say so - that is still useful evidence, just tell us which it is.
+    validations:
+      required: true
