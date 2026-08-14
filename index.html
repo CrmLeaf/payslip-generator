@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Payslip Generator - live demo</title>
+<meta name="description" content="Compliance-ready payslip PDFs with your company branding.">
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://www.indpayroll.com/free-tools/payslip-generator">
+
+<!--
+    A working copy of Payslip Generator in one file, with no build step and no server.
+
+    Open it from disk. There is no bundler, no framework and no network request:
+    the calculation runs in the page, so nothing typed here leaves the machine.
+    That matters for a tool people paste salary figures into.
+
+    payroll.min.js is served beside this page. It is not committed to the
+    repository - it is 200 KB of build output shared by all fifteen tools, and a
+    copy per repository would be stale the first time a statutory rate changed -
+    so this page is built and published from the monorepo instead, by
+    bin/build-pages.php.
+-->
+
+<script src="./payroll.min.js"></script>
+
+<style>
+  :root {
+    --brand: #03376b; --brand-mid: #2563eb;
+    --ink: #0f172a; --body: #212529; --muted: #64748b;
+    --line: #e2e8f0; --bg: #fff; --surface: #f8fafc; --radius: 16px;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #f1f5f9; --body: #e2e8f0; --muted: #94a3b8;
+      --line: #1e293b; --bg: #0b1120; --surface: #111a2e;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--body);
+    font: 16px/1.6 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .wrap { max-width: 52rem; margin: 0 auto; padding: 0 1.25rem; }
+
+  .masthead {
+    background: linear-gradient(135deg, var(--brand), var(--brand-mid));
+    color: #fff;
+    padding: 2.5rem 0 2rem;
+  }
+
+  .masthead h1 { margin: .5rem 0 .35rem; font-size: clamp(1.6rem, 4vw, 2.2rem); line-height: 1.2; }
+  .masthead p { margin: 0; color: #dbeafe; }
+
+  .badge {
+    display: inline-block;
+    background: rgba(255, 255, 255, .15);
+    border: 1px solid rgba(255, 255, 255, .25);
+    border-radius: 999px;
+    padding: .25rem .7rem;
+    font-size: .78rem;
+    letter-spacing: .02em;
+  }
+
+  main { padding: 2rem 0 3rem; }
+
+  h2 { color: var(--ink); font-size: 1.05rem; margin: 2rem 0 .5rem; }
+  h2:first-of-type { margin-top: 0; }
+
+  .lede { color: var(--muted); margin: 0 0 1rem; }
+
+  pre {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: .75rem 1rem;
+    overflow-x: auto;
+    font-size: .85rem;
+    margin: 0 0 1rem;
+  }
+
+  code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+  .notice {
+    border: 1px solid #f59e0b;
+    background: #fffbeb;
+    color: #78350f;
+    border-radius: var(--radius);
+    padding: 1rem 1.25rem;
+    margin: 0 0 1.5rem;
+  }
+
+  .notice h2 { color: inherit; margin: 0 0 .5rem; }
+  .notice pre { background: #fff7e6; border-color: #fcd34d; margin-bottom: 0; }
+
+  .colophon {
+    border-top: 1px solid var(--line);
+    margin-top: 2.5rem;
+    padding-top: 1.25rem;
+    color: var(--muted);
+    font-size: .88rem;
+  }
+
+  .hosted { margin: 1rem 0 0; }
+
+  .hosted a {
+    display: inline-block;
+    background: rgba(255, 255, 255, .14);
+    border: 1px solid rgba(255, 255, 255, .3);
+    border-radius: 999px;
+    padding: .4rem .95rem;
+    color: #fff;
+    text-decoration: none;
+    font-size: .9rem;
+  }
+
+  .hosted a:hover { background: rgba(255, 255, 255, .24); }
+
+  a { color: var(--brand-mid); }
+
+  @media (prefers-color-scheme: dark) {
+    .notice { background: #2a1e05; border-color: #a16207; color: #fde68a; }
+    .notice pre { background: #1f1704; border-color: #a16207; }
+    a { color: #93c5fd; }
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <p class="badge">One file &middot; no build step &middot; nothing leaves the page</p>
+    <h1>Payslip Generator</h1>
+    <p>Compliance-ready payslip PDFs with your company branding.</p>
+    <p class="hosted">
+      <a href="https://www.indpayroll.com/free-tools/payslip-generator?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=payroll-tools">Use the hosted Payslip Generator &rarr;</a>
+    </p>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <div id="missing-bundle" class="notice" hidden>
+    <h2>This page is not working</h2>
+    <p>
+      payroll.min.js should be served beside this page and is not, so the
+      calculator below will not appear. That is a broken deploy rather than
+      anything you have done - please
+      <a href="https://github.com/crmleaf/payslip-generator/issues/new">open an issue</a> and we will fix it.
+    </p>
+  </div>
+
+  <h2>The whole integration</h2>
+  <p class="lede">
+    One script tag and one element. It renders a labelled, accessible form,
+    computes as you type, and shows the working with the statute behind each
+    line.
+  </p>
+  <pre><code>&lt;script src="payroll.min.js"&gt;&lt;/script&gt;
+&lt;payroll-payslip-generator&gt;&lt;/payroll-payslip-generator&gt;</code></pre>
+
+  <payroll-payslip-generator></payroll-payslip-generator>
+
+  <h2>Starting values come from attributes</h2>
+  <p class="lede">
+    Named after the calculator's own parameters, hyphenated. Useful for
+    pre-filling from a CMS field or a query string.
+  </p>
+  <pre><code>&lt;payroll-payslip-generator employee-name="Asha Menon"&gt;&lt;/payroll-payslip-generator&gt;</code></pre>
+
+  <payroll-payslip-generator employee-name="Asha Menon"></payroll-payslip-generator>
+
+  <h2>Or a plain div</h2>
+  <p class="lede">
+    Most WYSIWYG editors drop a tag they do not recognise but leave a div with a
+    data attribute alone, so both forms work.
+  </p>
+  <pre><code>&lt;div data-payroll="payslip-generator"&gt;&lt;/div&gt;</code></pre>
+
+  <div data-payroll="payslip-generator"></div>
+
+  <footer class="colophon">
+    <p>
+      <strong>Payslip Generator</strong> is part of the
+      <a href="https://github.com/crmleaf">CRMLeaf payroll tools</a>. The
+      arithmetic and the dated statutory rate tables live in
+      <a href="https://github.com/crmleaf/payroll-core">crmleaf/payroll-core</a>;
+      this package is the thin skin around one calculator. See the
+      <a href="https://github.com/crmleaf/payslip-generator#readme">readme</a> for the Composer and npm routes.
+    </p>
+    <p>
+      All fifteen are hosted and free to use at
+      <a href="https://www.indpayroll.com/free-tools?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=payroll-tools">indpayroll.com/free-tools</a> - the same arithmetic,
+      nothing to install.
+    </p>
+    <p>
+      A calculation library, not tax advice. Verify against your own compliance
+      obligations before relying on a figure for a filing.
+    </p>
+  </footer>
+
+</main>
+
+<script>
+  // The notice is hidden by default and shown only when the bundle really is
+  // absent, so a reader who did copy the file never sees a warning about it.
+  // Nothing here is built from a value anyone typed.
+  //
+  // `Payroll` is the global the UMD build sets - see globalName in
+  // packages/payroll-js/scripts/build-umd.mjs. Getting this name wrong does not
+  // break the calculator, it just accuses a working page of being broken, which
+  // is why the element registration is checked too: that is the thing the
+  // markup below actually depends on.
+  (function () {
+    'use strict';
+
+    function check() {
+      var loaded = typeof window.Payroll !== 'undefined'
+        && !!(window.customElements && window.customElements.get('payroll-payslip-generator'));
+
+      if (!loaded) {
+        document.getElementById('missing-bundle').hidden = false;
+      }
+    }
+
+    // On load, not while the document is still parsing. The bundle registers
+    // its elements once the page is ready, so a check running here inline would
+    // always find none and report a working page as broken.
+    if (document.readyState === 'complete') {
+      check();
+    } else {
+      window.addEventListener('load', check);
+    }
+  }());
+</script>
+
+</body>
+</html>
