@@ -188,14 +188,31 @@ cp dist/payroll.min.js /path/to/payslip-generator/demo/</code></pre>
   // The notice is hidden by default and shown only when the bundle really is
   // absent, so a reader who did copy the file never sees a warning about it.
   // Nothing here is built from a value anyone typed.
+  //
+  // `Payroll` is the global the UMD build sets - see globalName in
+  // packages/payroll-js/scripts/build-umd.mjs. Getting this name wrong does not
+  // break the calculator, it just accuses a working page of being broken, which
+  // is why the element registration is checked too: that is the thing the
+  // markup below actually depends on.
   (function () {
     'use strict';
 
-    var loaded = typeof window.CrmleafPayroll !== 'undefined'
-      || typeof window.crmleaf !== 'undefined';
+    function check() {
+      var loaded = typeof window.Payroll !== 'undefined'
+        && !!(window.customElements && window.customElements.get('payroll-payslip-generator'));
 
-    if (!loaded) {
-      document.getElementById('missing-bundle').hidden = false;
+      if (!loaded) {
+        document.getElementById('missing-bundle').hidden = false;
+      }
+    }
+
+    // On load, not while the document is still parsing. The bundle registers
+    // its elements once the page is ready, so a check running here inline would
+    // always find none and report a working page as broken.
+    if (document.readyState === 'complete') {
+      check();
+    } else {
+      window.addEventListener('load', check);
     }
   }());
 </script>
