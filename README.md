@@ -10,6 +10,12 @@ and the dated statutory rate tables live in
 the thin skin that makes one calculator installable, mountable and embeddable on
 its own.
 
+> [!TIP]
+> **Nothing to install to try it.** [Payslip Generator on INDPayroll](https://www.indpayroll.com/free-tools/payslip-generator?utm_source=github&utm_medium=referral&utm_campaign=payroll-tools)
+> is this calculator, hosted and free, and
+> [all fifteen tools](https://www.indpayroll.com/free-tools?utm_source=github&utm_medium=referral&utm_campaign=payroll-tools) are there. Install the package when you want
+> it inside your own application.
+
 > [!NOTE]
 > A wrong figure or an out-of-date rate is almost always a
 > [`payroll-core`](https://github.com/crmleaf/payroll-core/issues) matter, since

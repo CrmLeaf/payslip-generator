@@ -106,6 +106,21 @@
     font-size: .88rem;
   }
 
+  .hosted { margin: 1rem 0 0; }
+
+  .hosted a {
+    display: inline-block;
+    background: rgba(255, 255, 255, .14);
+    border: 1px solid rgba(255, 255, 255, .3);
+    border-radius: 999px;
+    padding: .4rem .95rem;
+    color: #fff;
+    text-decoration: none;
+    font-size: .9rem;
+  }
+
+  .hosted a:hover { background: rgba(255, 255, 255, .24); }
+
   a { color: var(--brand-mid); }
 
   @media (prefers-color-scheme: dark) {
@@ -122,6 +137,9 @@
     <p class="badge">One file &middot; no build step &middot; nothing leaves the page</p>
     <h1>Payslip Generator</h1>
     <p>Compliance-ready payslip PDFs with your company branding.</p>
+    <p class="hosted">
+      <a href="https://www.indpayroll.com/free-tools/payslip-generator?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=payroll-tools">Use the hosted Payslip Generator &rarr;</a>
+    </p>
   </div>
 </header>
 
@@ -175,6 +193,11 @@ cp dist/payroll.min.js /path/to/payslip-generator/demo/</code></pre>
       <a href="https://github.com/crmleaf/payroll-core">crmleaf/payroll-core</a>;
       this package is the thin skin around one calculator. See the
       <a href="../README.md">readme</a> for the Composer and npm routes.
+    </p>
+    <p>
+      All fifteen are hosted and free to use at
+      <a href="https://www.indpayroll.com/free-tools?utm_source=github&amp;utm_medium=referral&amp;utm_campaign=payroll-tools">indpayroll.com/free-tools</a> - the same arithmetic,
+      nothing to install.
     </p>
     <p>
       A calculation library, not tax advice. Verify against your own compliance
