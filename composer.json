@@ -5,6 +5,12 @@
     "homepage": "https://www.indpayroll.com/free-tools/payslip-generator",
     "license": "MIT",
     "type": "library",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/crmleaf/payroll-core"
+        }
+    ],
     "authors": [
         {
             "name": "CRMLeaf",
