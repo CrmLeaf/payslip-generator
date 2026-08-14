@@ -25,22 +25,6 @@ setup:
 composer require crmleaf/payslip-generator
 ```
 
-> [!NOTE]
-> Not on Packagist yet. Until it is, point Composer at the two repositories in
-> **your own project's** `composer.json` and the same `require` works, because
-> Composer reads the tags:
->
-> ```json
-> "repositories": [
->     { "type": "vcs", "url": "https://github.com/crmleaf/payslip-generator.git" },
->     { "type": "vcs", "url": "https://github.com/crmleaf/payroll-core.git" }
-> ]
-> ```
->
-> Both entries are needed, and they have to be in the root project: Composer
-> ignores a `repositories` block inside an installed dependency, so listing only
-> this package will not resolve `crmleaf/payroll-core`.
-
 **npm** - the same calculation, re-exported from `@crmleaf/payroll-js` so you can
 install this one tool and nothing else:
 
@@ -49,9 +33,9 @@ npm install @crmleaf/payslip-generator
 ```
 
 > [!NOTE]
-> Not on npm yet either. The script-tag route below needs no registry and works
-> today. Installing this package straight from git will not resolve
-> `@crmleaf/payroll-js`, for the same reason as above.
+> Not on npm yet. The script-tag route below needs no registry and works today.
+> Installing this package straight from git will not resolve
+> `@crmleaf/payroll-js`, which is not published yet either.
 
 **A plain script tag** - no build step, no bundler, no server. Build the browser
 bundle once and serve the file yourself:
